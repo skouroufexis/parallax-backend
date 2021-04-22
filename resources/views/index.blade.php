@@ -25,6 +25,21 @@
 
 <body>
 
+            @if (Route::has('login'))
+                <div class="container top1 right">
+                    @auth
+                       <div class='row top1'> 
+                            <a href="{{ url('/home') }}">Home</a>
+                        </div>
+                    @else
+                        <a href="{{ route('login') }}" class="lightblack">Log in</a>
+
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="left1 lightblack">Register</a>
+                        @endif
+                    @endauth
+                </div>
+            @endif
 
     <section id="top">
         <header class="container top1">

@@ -13,23 +13,50 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
+use App\Http\Controllers\AdminController;
+
 Route::get('/', function () {
-    return view('index');
+    $products = DB::select('SELECT * from products', [1]);
+    return view('index',['products'=>$products]);
 });
 
 Route::get('/index.html', function () {
-    return view('index');
+
+    $products = DB::select('SELECT * from products', [1]);
+    
+    return view('index',['products'=>$products]);
 });
 
 Route::get('/test', function () {
     return view('test');
 });
 
+Route::get('/success', function () {
+    return view('success');
+})->middleware('auth');;
+
 
 Auth::routes(['register'=>false]);
 
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/admin',[AdminController::class, 'index'])->middleware('auth');
+
+Route::get('/admin/products/new',[AdminController::class, 'addProduct'])->middleware('auth');
+
+Route::post('/admin/products/new',[AdminController::class, 'postProduct'])->middleware('auth');
+
+Route::post('/admin/products/putStatus',[AdminController::class, 'putStatus'])->middleware('auth');
+
+Route::get('/admin/products/product',[AdminController::class, 'getProduct'])->middleware('auth');
+
+Route::post('/admin/products/putProduct',[AdminController::class, 'putProduct'])->middleware('auth');
+
+Route::post('/admin/products/deleteProduct',[AdminController::class, 'deleteProduct'])->middleware('auth');
+
+
+

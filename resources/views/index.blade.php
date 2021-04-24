@@ -29,7 +29,7 @@
                 <div class="container top1 right">
                     @auth
                        <div class='row top1'> 
-                            <a href="{{ url('/home') }}">Home</a>
+                            <a href="{{ url('/home') }}">Admin</a>
                         </div>
                     @else
                         <a href="{{ route('login') }}" class="lightblack">Log in</a>
@@ -289,7 +289,73 @@
                 </div>
                 
                 <div class="row top1">
-                    <div class="col-12 col-md-6 col-lg-4 product-container vertical-end">
+
+                    @foreach($products as $product)
+
+                        
+
+                        @php                        
+                            $image=$product->image;
+                            if($image){
+                                $path=explode("public/images/",$image);
+                                $path=$path[1];
+                                $path='storage/images/'.$path;                                
+
+                            }
+                            else{
+                                $path='';
+                            }
+                            
+                        @endphp
+
+                        <!-- status=1==active     -->                        
+                        @if($product->status=='1')
+                            
+                        <div class="col-12 col-md-6 col-lg-4 product-container vertical-end"
+                    
+                        style="background-image:url({{$path}})"
+                        >
+                        
+                        @if($product->type=='light')
+                        <div class="membrane">
+
+                            
+                            <h2 class="black centre vertical-centre">{{$product->title}}</h2>
+                            <p>
+                            {!!$product->content!!}
+                            </p>
+
+
+                
+                        </div>
+                        @elseif($product->type=='dark')                                
+
+                        <div class="membrane" style="background-color: rgb(0, 0, 0,0.6); color:whitesmoke">
+
+                            
+                            <h2 class="black centre vertical-centre" style="color:whitesmoke;">{{$product->title}}</h2>
+                            <p>
+                            {!!$product->content!!}
+                            </p>
+
+
+                
+                        </div>
+
+                        @endif
+
+
+
+                    
+
+                    </div>
+
+
+                        @endif   
+                    
+
+                    @endforeach
+                    <!-- <div class="col-12 col-md-6 col-lg-4 product-container vertical-end">
                         <div class="membrane">
                             <h2 class="black centre"></h2>
                             <p>
@@ -345,7 +411,7 @@
                         <div class="membrane">
                             <h2 class="black centre"><b>Peas</b></h2>                        
                         </div>
-                    </div>
+                    </div> -->
                 </div>
     
             </div>
@@ -498,6 +564,7 @@
  
 
  <script>
+     
     function myMap() {
     var mapProp= {
       center:new google.maps.LatLng(51.508742,-0.120850),
@@ -505,6 +572,9 @@
     };
     var map = new google.maps.Map(document.getElementById("map"),mapProp);
     }
+
+
+    
     </script>
     
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY&callback=myMap"></script>
